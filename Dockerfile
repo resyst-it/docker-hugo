@@ -2,9 +2,10 @@ FROM alpine:latest
 MAINTAINER Florian CAUZARD <florian.cauzardjarry@gmail.com>
 
 
-RUN apk --update add py-pip tar \
-    && pip install --upgrade pip \
-    && pip install Pygments
+RUN apk --update add tar git
+#RUN apk --update add py-pip tar git \
+#    && pip install --upgrade pip \
+#    && pip install Pygments
 ENV VERSION 0.15
 ENV BINARY hugo_${VERSION}_linux_amd64
 
@@ -13,9 +14,11 @@ RUN tar xzf /usr/local/${BINARY}.tar.gz -C /usr/local \
     && ln -s /usr/local/${BINARY}/${BINARY} /usr/local/bin/hugo \
     && rm /usr/local/${BINARY}.tar.gz
 
+RUN git clone https://github.com/resyst-it/blog-hugo hugo
+
 WORKDIR /hugo
 
-RUN git clone https://github.com/resyst-it/blog-hugo
+RUN git clone https://github.com/tmaiaroto/hugo-redlounge /hugo/themes/hugo-redlounge
 
 EXPOSE 1313
 
